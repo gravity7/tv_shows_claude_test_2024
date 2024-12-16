@@ -4,111 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asian Cinema Database</title>
-    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Asian Cinema Database</h1>
-        <h2>Films from Korea, Japan, and Hong Kong</h2>
-        
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search for movies...">
-        </div>
-
-        <div class="table-container">
-            <table id="movieTable">
-                <thead>
-                    <tr>
-                        <th onclick="sortTable(0)">Title ↕</th>
-                        <th onclick="sortTable(1)">Country ↕</th>
-                        <th onclick="sortTable(2)">Year ↕</th>
-                        <th onclick="sortTable(3)">Category ↕</th>
-                        <th onclick="sortTable(4)">Theme ↕</th>
-                        <th onclick="sortTable(5)">IMDB ↕</th>
-                        <th onclick="sortTable(6)">My Rating ↕</th>
-                        <th>Tags</th>
-                        <th>Available On</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- All movies will be added here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <script>
-        function sortTable(n) {
-            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            table = document.getElementById("movieTable");
-            switching = true;
-            dir = "asc";
-            
-            while (switching) {
-                switching = false;
-                rows = table.rows;
-                
-                for (i = 1; i < (rows.length - 1); i++) {
-                    shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("TD")[n];
-                    y = rows[i + 1].getElementsByTagName("TD")[n];
-                    
-                    let comparison;
-                    if (n === 2 || n === 5) { // Year or IMDB rating
-                        comparison = Number(x.innerHTML) > Number(y.innerHTML);
-                    } else {
-                        comparison = x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase();
-                    }
-                    
-                    if (dir === "asc") {
-                        if (comparison) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir === "desc") {
-                        if (!comparison) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-                
-                if (shouldSwitch) {
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                    switchcount++;
-                } else {
-                    if (switchcount === 0 && dir === "asc") {
-                        dir = "desc";
-                        switching = true;
-                    }
-                }
-            }
-        }
-
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('keyup', function() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchInput");
-            filter = input.value.toLowerCase();
-            table = document.getElementById("movieTable");
-            tr = table.getElementsByTagName("tr");
-
-            for (i = 1; i < tr.length; i++) {
-                let found = false;
-                td = tr[i].getElementsByTagName("td");
-                for(let j = 0; j < td.length; j++) {
-                    if (td[j]) {
-                        txtValue = td[j].textContent || td[j].innerText;
-                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                tr[i].style.display = found ? "" : "none";
-            }
-        });
-    </script>
+    <div id="root"></div>
+    <script type="text/babel" src="app.js"></script>
 </body>
 </html>
